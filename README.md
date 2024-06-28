@@ -12,9 +12,10 @@ When a model's performance drops below predefined thresholds, this pipeline auto
 
 
 ### Upcoming feature
-- Replacing AWS Step Function with Amazon SageMaker Pipeline
 - Include inference job in the pipeline
 - Support more objective metrics
+
+*New version will be released in July, [click here fore more information](#New_Version)*
 
 ### Disclaimer
 - Simplified the new model evaluation by directly using the object metric value from Autopilot job
@@ -26,7 +27,7 @@ When a model's performance drops below predefined thresholds, this pipeline auto
 1. [Architecture](#Architecture)
 2. [Resources](#Resources)
 3. [Deployment](#Deployment)
-4. [License](#License)
+4. [New Version](#New_Version)
 
 ## Architecture <a name="Architecture"></a>
 
@@ -86,6 +87,17 @@ To dispose of the stack afterwards, run the command:
 $ cdk destroy
 ```
 
+
+## New Version <a name="New_Version"></a> - *Coming in July*
+
+![arc](src/architecture.png)
+
+1. Generate synthetic dataset in jupyter notebook and upload data to S3 bucket. On Upload a wrokflow is triggered to generate parameters for evaluation, pulling these from Parameter Store.
+2. Using a SageMaker Batch Transform Job, Predictions are generated for evaluation from the ground truth dataset. A Time Series evaluation lambda calculates the RMSE for our Model. 
+3. If our Model metric meets our business metric threshold, we update our registered model's metric metadata in the SageMaker Model Registry
+4.If not, we generate a Model using the SageMaker AutoML V2 API. We then evaluate this model using a Batch Transform Job.
+5. If the new model, performs better than the current model, a Model Package is registered for review in the Model Registry
+6. Once our, evaluation is complete, we notify the relevant stakeholder to review the changes in model performance for potential approval.
 
 
 ## Useful commands
