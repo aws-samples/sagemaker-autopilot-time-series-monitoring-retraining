@@ -88,7 +88,7 @@ $ cdk destroy
 ```
 
 
-## New Version <a name="New_Version"></a> - *Coming in July*
+## New Version <a name="New_Version"></a> - *Coming Soon*
 
 ![arc](src/architecture.png)
 
